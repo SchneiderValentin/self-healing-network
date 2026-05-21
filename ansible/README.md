@@ -25,10 +25,11 @@ To ensure separation of concerns, the playbooks will be divided into folders nam
 .
 ├── inventories/
 │   └── inventory.yaml            # Inventory containing all testbed VM's except the management node itself
-└── playbooks/
-    └── setup/                    # Playbooks to prepare and patch the testbed
-        ├── check_updates.yaml    # Verifies the last package update timestamp
-        ├── set_hostnames.yaml    # Edits system hostnames at /etc/hosts to match inventory hostnames
-        ├── update_nodes.yaml     # Performs safe apt-get upgrade
-        └── verify_time.yaml      # Verifies NTP time synchronization across the testbed 
+├── playbooks/
+│   └── setup/                    # Playbooks to prepare and patch the testbed
+│       ├── check_updates.yaml    # Verifies the last package update timestamp
+│       ├── set_hostnames.yaml    # Edits system hostnames at /etc/hosts to match inventory hostnames
+│       ├── update_nodes.yaml     # Performs safe apt-get upgrade
+│       └── verify_time.yaml      # Verifies NTP time synchronization across the testbed 
+└── README.md                     # Ansible documentation (You are here)
 ```

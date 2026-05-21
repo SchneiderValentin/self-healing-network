@@ -1,0 +1,28 @@
+---
+- name: Setup and verify precise system time
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Set timezone to Europe/Berlin
+      ansible.builtin.timezone:
+        name: Europe/Berlin
+
+    - name: Enable NTP service
+      ansible.builtin.command: timedatectl set-ntp true
+      changed_when: false
+
+    - name: Verify NTP synchronization
+      ansible.builtin.command: timedatectl
+      register: timedatectl_output
+      changed_when: false
+      failed_when: "'System clock synchronized: yes' not in timedatectl_output.stdout"
+
+    - name: Fetch system time
+      ansible.builtin.command: date "+%d.%m.%Y %H:%M:%S.%3N"
+      register: current_time
+      changed_when: false
+
+    - name: Display time
+      ansible.builtin.debug:
+        msg: "For {{ inventory_hostname }}: it's {{ current_time.stdout }}."

@@ -1,0 +1,20 @@
+---
+- name: Check for last update
+  hosts: all
+  tasks:
+
+    - name: Fetch update timestamp
+      ansible.builtin.command: date -r /var/log/apt/history.log "+%d.%m.%Y at %H:%M:%S"
+      register: date
+      changed_when: false
+      failed_when: false # In case no log is present
+
+    - name: Print timestamp
+      ansible.builtin.debug:
+        msg: "Last updated: {{ date.stdout }}"
+      when: date.rc == 0
+
+    - name: Print warning
+      ansible.builtin.debug:
+        msg: "No history.log found"
+      when: date.rc != 0

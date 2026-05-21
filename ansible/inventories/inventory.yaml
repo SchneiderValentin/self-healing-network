@@ -1,0 +1,24 @@
+all:
+  children:
+    nodes:
+      hosts:
+        target:
+          ansible_host: 192.168.99.10
+        source:
+          ansible_host: 192.168.99.20
+        probing:
+          ansible_host: 192.168.99.112
+    routers:
+      hosts:
+        target-edge:
+          ansible_host: 192.168.99.110
+        transit-1:
+          ansible_host: 192.168.99.120
+        transit-2:
+          ansible_host: 192.168.99.130
+        transit-3:
+          ansible_host: 192.168.99.140
+        source-edge:
+          ansible_host: 192.168.99.150
+  vars:
+    ansible_user: user

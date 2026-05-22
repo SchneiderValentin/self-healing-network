@@ -34,6 +34,7 @@ The system relies on a continuous closed-control-loop:
 .
 ├── ansible/             # Ansible playbooks
 ├── architecture/        # Architecture diagrams
+├── configs/             # Configuration files
 ├── docs/                # Other documentation
 ├── src/                 # Webhook logic
 ├── .gitignore           # Git ignore rules

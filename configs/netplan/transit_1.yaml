@@ -1,0 +1,37 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+
+    #-----------------------#
+    #       TRANSIT 1       #
+    #-----------------------#
+
+    # MANAGEMENT PLANE
+    # vmbr99
+    ens18:
+      addresses:
+        - 192.168.99.120/24
+
+    # SERVICE PLANE
+    # vmbr88
+    ens19:
+      addresses:
+        - 10.254.0.120/24
+      routes:
+        - to: default
+          via: 10.254.0.1
+      nameservers:
+        addresses: [8.8.8.8, 1.1.1.1]
+
+    # DATA PLANE
+    # vmbr2 
+    # Transit 1 - Target Edge
+    ens20:
+      addresses: [10.0.10.120/24]
+
+    # DATA PLANE
+    # vmbr5
+    # Transit 1 - Source Edge
+    ens21:
+      addresses: [10.0.40.120/24]

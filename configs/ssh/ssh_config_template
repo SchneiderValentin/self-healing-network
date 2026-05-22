@@ -1,0 +1,56 @@
+# =================================================================
+# SSH Config Template
+# =================================================================
+
+# -----------------------------------------------------------------
+# Endpoints & Management
+# -----------------------------------------------------------------
+
+# Target
+Host t
+        HostName 192.168.99.10
+        User user
+
+# Source
+Host s
+        HostName 192.168.99.20
+        User user
+
+# Management
+Host m
+        HostName 192.168.99.99
+        User user
+
+# Probing
+Host p
+        HostName 192.168.99.112
+        User user
+
+# -----------------------------------------------------------------
+# Routing Nodes
+# -----------------------------------------------------------------
+
+# Target Edge
+Host te
+        HostName 192.168.99.110
+        User user
+
+# Transit 1
+Host t1
+        HostName 192.168.99.120
+        User user
+
+# Transit 2
+Host t2
+        HostName 192.168.99.130
+        User user
+
+# Transit 3
+Host t3
+        HostName 192.168.99.140
+        User user
+
+# Source Edge
+Host se
+        HostName 192.168.99.150
+        User user

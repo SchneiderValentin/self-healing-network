@@ -37,7 +37,3 @@ To ensure separation of concerns, the playbooks will be divided into folders nam
 │       ├── ...                         # ...
 └── README.md                           # Ansible documentation (You are here)
 ```
-
-
-* **`clean_isolate.yaml`**: Administratively shuts down Edge interfaces to a transit link, effectively isolating the link.
-* **`heal_clean_isolate.yaml`**: Inverse playbook to `clean_isolate.yaml`.

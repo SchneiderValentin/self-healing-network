@@ -1,0 +1,9 @@
+---
+hostname: "transit-3"
+router_id: "4.4.4.4"
+
+ospf_networks:
+  - ip: "10.0.30.0/24"
+    area: 0
+  - ip: "10.0.60.0/24"
+    area: 0

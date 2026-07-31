@@ -1,0 +1,17 @@
+---
+- name: Drift detection
+  hosts: routers
+  become: yes
+
+  tasks:
+    - name: Validate frr configurations
+      ansible.builtin.template:
+        src: frr.conf.j2
+        dest: /etc/frr/frr.conf
+      check_mode: yes
+      register: frr_check
+
+    - name: Found drift!
+      ansible.builtin.debug:
+        msg: "CAUTION: Configuration at {{ inventory_hostname }} does not correspont to truth"
+      when: frr_check.changed

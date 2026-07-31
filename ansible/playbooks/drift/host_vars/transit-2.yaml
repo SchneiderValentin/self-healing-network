@@ -1,0 +1,15 @@
+---
+hostname: "transit-2"
+router_id: "3.3.3.3"
+
+interfaces:
+  - name: "ens20"
+    cost: 10
+  - name: "ens21"
+    cost: 10
+
+ospf_networks:
+  - ip: "10.0.20.0/24"
+    area: 0
+  - ip: "10.0.50.0/24"
+    area: 0

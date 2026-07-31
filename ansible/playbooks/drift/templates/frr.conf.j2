@@ -1,0 +1,22 @@
+frr version 8.4.4
+frr defaults traditional
+hostname {{ hostname }}
+log syslog informational
+no ipv6 forwarding
+service integrated-vtysh-config
+!
+{% for iface in interfaces | default([]) %}
+interface {{ iface.name }}
+{% if iface.cost is defined %}
+ ip ospf cost {{ iface.cost }}
+{% endif %}
+exit
+!
+{% endfor %}
+router ospf
+ ospf router-id {{ router_id }}
+{% for network in ospf_networks %}
+ network {{ network.ip }} area {{ network.area }}
+{% endfor %}
+exit
+!

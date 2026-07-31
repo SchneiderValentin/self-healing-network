@@ -1,0 +1,18 @@
+---
+hostname: "source-edge"
+router_id: "5.5.5.5"
+
+interfaces:
+  - name: "ens20"
+  - name: "ens21"
+  - name: "ens22"
+
+ospf_networks:
+  - ip: "10.0.2.0/24"
+    area: 0
+  - ip: "10.0.40.0/24"
+    area: 0
+  - ip: "10.0.50.0/24"
+    area: 0
+  - ip: "10.0.60.0/24"
+    area: 0

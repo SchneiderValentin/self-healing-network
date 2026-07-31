@@ -23,9 +23,9 @@ To ensure separation of concerns, the playbooks will be divided into folders nam
 
 ```text
 .
-├── inventories/
-│   └── inventory.yaml                  # Ansible Inventories
+├── inventories/                        # Ansible Inventories
 ├── playbooks/                          # Ansible Playbooks
+│   ├── drift/                          # Playbooks and files to detect drift in frr.conf via Ansible
 │   ├── setup/                          # Playbooks to prepare and patch the testbed
 │   └── remediation/                    # Playbooks to run remediation experiments
 └── README.md                           # Ansible documentation (You are here)

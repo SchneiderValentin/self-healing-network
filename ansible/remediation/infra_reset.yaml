@@ -1,0 +1,20 @@
+- name: Reset cold standby remediation
+  hosts: hypervisor
+  gather_facts: false
+  become: true
+
+  tasks:
+
+    - name: Hard stop LXC
+      ansible.builtin.command:
+        cmd: "pct shutdown 112"
+      ignore_errors: true
+
+    - name: Verify LXC offline state
+      ansible.builtin.command:
+        cmd: "pct status 112"
+      register: vm_status
+      until: "'status: stopped' in vm_status.stdout"
+      retries: 100
+      delay: 0.1
+      changed_when: false

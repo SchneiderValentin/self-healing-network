@@ -1,0 +1,34 @@
+---
+- name: Start cumulative Packet Loss measurement 
+  hosts: source
+  become: yes 
+  gather_facts: false 
+
+  vars:
+    target_ip: "10.0.1.10" # Source Node
+    ping_interval: 0.005 
+    log_dir_remote: "/home/user/logs"
+    state_file: "/home/user/state/run_state.json"
+
+  tasks:
+    - name: Generate runs timestamp 
+      command: date +"%Y%m%d_%H%M%S_%N"
+      register: timestamp_result
+
+    - name: Set filename for log
+      set_fact:
+        log_filename: "cpl_{{ timestamp_result.stdout }}.log"
+
+    - name: Start probing # Keeps process alive after SSH session
+      shell: "nohup ping -D -i {{ ping_interval }} {{ target_ip }} > {{ log_dir_remote }}/{{ log_filename }} 2>&1 & echo $!"
+      register: ping_process
+
+    - name: Save runs state
+      copy:
+        dest: "{{ state_file }}"
+        content: |
+          {
+            "pid": "{{ ping_process.stdout }}",
+            "logfile_name": "{{ log_filename }}",
+            "logfile_path": "{{ log_dir_remote }}/{{ log_filename }}"
+          }

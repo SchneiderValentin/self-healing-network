@@ -1,0 +1,17 @@
+---
+- name: Start Packet Sniffer (Timestamp Trigger)
+  hosts: target-edge 
+  gather_facts: false
+
+  tasks:
+    - name: Check for executability (chmod +x)
+      ansible.builtin.file:
+        path: /home/user/push_timestamp_icmp.sh
+        mode: '0755'
+
+    - name: Starte Sniffer (Fire-and-Forget)
+      ansible.builtin.shell: nohup ./push_timestamp_icmp.sh > sniffer.log 2>&1 &
+      args:
+        chdir: /home/user/
+      async: 10
+      poll: 0

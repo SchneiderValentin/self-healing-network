@@ -1,0 +1,10 @@
+---
+- name: Kill all ping processes # Backup playbook in case SIGINT did not work
+  hosts: source
+  become: yes
+  gather_facts: false
+
+  tasks:
+    - name: End ping
+      command: killall ping
+      ignore_errors: yes

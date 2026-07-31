@@ -131,7 +131,7 @@ def main():
 
         print("-" * 90)
 
-        cmd_kill_icmp = ["ansible-playbook", "-i", ANSIBLE_INVENTORY, "killall.yaml"]
+        cmd_kill_icmp = ["ansible-playbook", "-i", ANSIBLE_INVENTORY, "killping.yaml"]
         if not run_playbook(cmd_kill_icmp, "Stop ICMP stream"):
             exit(1)
 

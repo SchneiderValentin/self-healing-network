@@ -1,0 +1,9 @@
+---
+- name: Heal Gray Failure (Remove Packet Loss)
+  hosts: transit-1
+  become: yes
+  
+  tasks:
+    - name: Remove traffic control
+      ansible.builtin.command: tc qdisc del dev ens20 root netem
+      ignore_errors: yes

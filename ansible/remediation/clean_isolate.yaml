@@ -1,0 +1,16 @@
+---
+- name: Isolate link to transit-1 by interface shutdown on edge routers
+  hosts: source-edge, target-edge
+  become: yes
+  gather_facts: false
+
+  vars:
+    # Interface mapping
+    transit_interfaces:
+      source-edge: "ens20"
+      target-edge: "ens21"
+
+  tasks:
+    - name: Administratively bring down link to transit-1
+      ansible.builtin.command:
+        cmd: "ip link set {{ transit_interfaces[inventory_hostname] }} down"

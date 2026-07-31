@@ -1,0 +1,15 @@
+---
+- name: Restore link via transit-1 adjusting OSPF Metric
+  hosts: source-edge, target-edge
+  become: yes
+  gather_facts: false
+
+  vars:
+    transit_interfaces:
+      source-edge: "ens20"
+      target-edge: "ens21"
+
+  tasks:
+    - name: Restore initial OSPF cost
+      ansible.builtin.command:
+        cmd: vtysh -c 'configure terminal' -c 'interface {{ transit_interfaces[inventory_hostname] }}' -c 'ip ospf cost 1'

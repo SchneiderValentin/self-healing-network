@@ -1,0 +1,8 @@
+---
+- name: Inject Gray Failure (30% Packet Loss)
+  hosts: transit-1
+  become: yes
+  
+  tasks:
+    - name: Attacking Link via Transit 1
+      ansible.builtin.command: tc qdisc add dev ens20 root netem loss 30% # Direction: Transit 1 -> Target Edge

@@ -1,0 +1,61 @@
+---
+- name: Proof differential observability
+  hosts: source-edge
+  gather_facts: no
+  tasks:
+
+    - name: Start 3 min ICMP stream
+      ansible.builtin.command: ping -D -O -c 1800 -i 0.1 10.0.1.10
+      async: 200
+      poll: 0            # Move to next task
+      register: ping_job
+
+    - name: Phase 1 - Baseline with healthy link
+      ansible.builtin.pause:
+        seconds: 60
+
+    - name: Introduce Gray Failure
+      ansible.builtin.command: tc qdisc add dev ens21 root netem loss 20%
+      become: true
+      delegate_to: transit-1
+
+    - name: Phase 2 - Give OSPF time to react
+      ansible.builtin.pause:
+        seconds: 60
+
+    - name: Verify OSPF route to target network
+      ansible.builtin.command: ip route show to 10.0.1.0/24
+      register: route_output
+
+    - name: Remove Gray Failure
+      ansible.builtin.command: tc qdisc del dev ens21 root netem
+      become: true
+      delegate_to: transit-1
+
+    - name: Phase 3 - Recovered state
+      ansible.builtin.pause:
+        seconds: 60
+
+    - name: Fetch background ICMP stream results
+      ansible.builtin.async_status:
+        jid: "{{ ping_job.ansible_job_id }}"
+      register: ping_final
+      until: ping_final.finished
+      retries: 50
+      delay: 1
+      ignore_errors: true
+
+    - name: Display results
+      ansible.builtin.debug:
+        msg:
+          - "=== CONTROL PLANE ==="
+          - "{{ route_output.stdout }}"
+          - "=== DATA PLANE ==="
+          - "{{ ping_final.stdout_lines[-2:] | default(['No ping output available']) }}"
+
+    - name: Save raw ping output to file for plotting
+      ansible.builtin.copy:
+        content: "{{ ping_final.stdout }}"
+        dest: "/home/user/results/proof_icmp_stream.txt"
+      delegate_to: localhost
+      become: false

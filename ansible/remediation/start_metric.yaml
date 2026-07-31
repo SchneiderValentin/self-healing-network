@@ -1,0 +1,15 @@
+---
+- name: Isolate transit-1 via OSPF Metric Overwrite
+  hosts: source-edge, target-edge
+  become: yes
+  gather_facts: false
+
+  vars:
+    transit_interfaces:
+      source-edge: "ens20"
+      target-edge: "ens21"
+
+  tasks:
+    - name: Increase OSPF cost
+      ansible.builtin.command:
+        cmd: vtysh -c 'configure terminal' -c 'interface {{ transit_interfaces[inventory_hostname] }}' -c 'ip ospf cost 1000'

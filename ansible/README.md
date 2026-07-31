@@ -24,12 +24,20 @@ To ensure separation of concerns, the playbooks will be divided into folders nam
 ```text
 .
 ├── inventories/
-│   └── inventory.yaml            # Inventory containing all testbed VM's except the management node itself
+│   └── inventory.yaml                  # Inventory containing all testbed VM's except the management node itself
 ├── playbooks/
-│   └── setup/                    # Playbooks to prepare and patch the testbed
-│       ├── check_updates.yaml    # Verifies the last package update timestamp
-│       ├── set_hostnames.yaml    # Edits system hostnames at /etc/hosts to match inventory hostnames
-│       ├── update_nodes.yaml     # Performs safe apt-get upgrade
-│       └── verify_time.yaml      # Verifies NTP time synchronization across the testbed 
-└── README.md                     # Ansible documentation (You are here)
+│   ├── setup/                          # Playbooks to prepare and patch the testbed
+│   │   ├── check_updates.yaml          # Verifies the last package update timestamp
+│   │   ├── set_hostnames.yaml          # Edits system hostnames at /etc/hosts to match inventory hostnames
+│   │   ├── update_nodes.yaml           # Performs safe apt-get upgrade
+│   │   └── verify_time.yaml            # Verifies NTP time synchronization across the testbed 
+│   └── remediation/                    # Playbooks to run remediation experiments
+│       ├── clean_isolate.yaml          # Administratively shuts down Edge interfaces to a transit link
+│       ├── heal_clean_isolate.yaml     # Inverse playbook to clean_isolate.yaml
+│       ├── ...                         # ...
+└── README.md                           # Ansible documentation (You are here)
 ```
+
+
+* **`clean_isolate.yaml`**: Administratively shuts down Edge interfaces to a transit link, effectively isolating the link.
+* **`heal_clean_isolate.yaml`**: Inverse playbook to `clean_isolate.yaml`.

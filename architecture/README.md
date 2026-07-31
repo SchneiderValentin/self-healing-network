@@ -29,6 +29,7 @@ The Service Plane provides an overview of the nodes' connectivity to the WAN via
 ├── data_plane.drawio        # Editable Data Plane Draw.io source file
 ├── management_plane.svg     # Management Plane diagram
 ├── management_plane.drawio  # Editable Management Plane Draw.io source file
+├── mape.svg                 # MAPE-Phases diagram
 ├── service_plane.svg        # Service Plane diagram
 ├── service_plane.drawio     # Editable Service Plane Draw.io source file
 └── README.md                # Architecture documentation (You are here)

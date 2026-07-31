@@ -18,7 +18,7 @@
 
 The system relies on a continuous closed-control-loop:
 
-![Architecture Closed-Control-Loop](./docs/architecture_loop.svg)
+![Architecture Closed-Control-Loop](./architecture/mape.svg)
 
 1. **Monitor:** ICMP Probing utilizing `Blackbox Exporter` to check for Packet Loss on Links.
 2. **Analyze:** `Prometheus` analysis of Packet Loss occurrence to ensure Gray-Failure existence.
@@ -28,7 +28,7 @@ The system relies on a continuous closed-control-loop:
 
 
 
-## Repository Structure (Upcoming)
+## Repository Structure
 
 ```text
 .

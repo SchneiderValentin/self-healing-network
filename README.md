@@ -26,9 +26,17 @@ The system relies on a continuous closed-control-loop:
 4. **Execute:** Execution of `Ansible` playbook containing the chosen remediation-mechanic is triggered.
 ---
 
+## Evaluation
 
+The thesis evaluated the MAPE-K **Execute** phase in isolation. Three remediation mechanisms (RM1–RM3) were compared against Time-to-Mitigate (TTM), cumulative packet loss, and established resilience design principles.
 
-## Repository Structure
+The plot below compares TTM across 100 consecutive trials per mechanism, measured from the Prometheus `FIRING` event to the first packet received via a healthy link.
+
+![TTM Comparison](./docs/ttm_comparison.svg)
+
+Executed within the closed-loop, Administrative Shutdown (RM1) and OSPF Metric Overwrite (RM2) achieve average sub-second mitigation. In contrast, an unoptimized Cold Backup (RM3) takes approximately 18.5 seconds on average, illustrating the inherent trade-off between remediation speed and the resource efficiency of a passive cold standby.
+
+## Repository Structure (Upcoming)
 
 ```text
 .
@@ -37,5 +45,5 @@ The system relies on a continuous closed-control-loop:
 ├── configs/             # Configuration files
 ├── docs/                # Other documentation
 ├── src/                 # Webhook logic
-├── .gitignore           # Git ignore rules
+├── .gitignore           # Git ignore rules for clean commits
 └── README.md            # Project documentation (You are here)

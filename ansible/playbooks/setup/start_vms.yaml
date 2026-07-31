@@ -1,0 +1,15 @@
+---
+- name: Start all VMs
+  hosts: hypervisor
+  become: yes
+
+  tasks:
+    - name: Find offline VMs
+      ansible.builtin.shell: "qm list | awk '$3 == \"stopped\" {print $1}'"
+      register: stopped_vms
+      changed_when: false
+
+    - name: Start offline VMs
+      ansible.builtin.command: "qm start {{ item }}"
+      loop: "{{ stopped_vms.stdout_lines }}"
+      when: stopped_vms.stdout_lines | length > 0

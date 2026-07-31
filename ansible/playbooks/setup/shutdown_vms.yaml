@@ -1,0 +1,27 @@
+---
+- name: Shutdown VMs except <mgmt>
+  hosts: hypervisor
+  become: yes
+
+  tasks:
+    - name: Check for provided id
+      ansible.builtin.assert:
+        that: mgmt is defined
+        fail_msg: "ERROR: Use with caution, this playbook can shutdown management"
+        success_msg: "Shutting down all VMs except {{ mgmt | default('None') }} in 10 seconds..."
+
+    - name: A few seconds to rethink your choices...
+      ansible.builtin.pause:
+        seconds: 10
+
+    - name: Find online VMs
+      ansible.builtin.shell: "qm list | awk '$3 == \"running\" {print $1}'"
+      register: running_vms
+      changed_when: false
+
+    - name: Shutdown online VMs except <mgmt>
+      ansible.builtin.command: "qm shutdown {{ item }}"
+      loop: "{{ running_vms.stdout_lines }}"
+      when:
+        - running_vms.stdout_lines | length > 0
+        - item | string != mgmt | string

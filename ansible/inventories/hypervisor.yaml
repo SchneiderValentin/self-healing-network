@@ -1,5 +1,11 @@
 all:
   children:
+    proxmox:
+      hosts:
+        hypervisor:
+          ansible_host: 192.168.99.1
+          ansible_user: root
+
     nodes:
       hosts:
         target:
@@ -23,9 +29,6 @@ all:
           ansible_host: 192.168.99.150
         backup:
           ansible_host: 192.168.99.200
-          ansible_user: root
-        backup2:
-          ansible_host: 192.168.99.222
           ansible_user: root
 
   vars:
